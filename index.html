@@ -28,6 +28,12 @@
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        body.loaded {
+            opacity: 1;
         }
 
         /* Header Styles */
@@ -121,6 +127,8 @@
         .hero {
             height: 100vh;
             background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+            background-size: 200%;
+            animation: gradientShift 15s ease-in-out infinite;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -128,6 +136,12 @@
             color: white;
             position: relative;
             z-index: 1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .hero::before {
@@ -150,17 +164,18 @@
             max-width: 800px;
             z-index: 2;
             position: relative;
-            animation: fadeInUp 1s ease-out;
+            animation: scaleIn 1s ease-out;
+            will-change: transform, opacity;
         }
 
-        @keyframes fadeInUp {
+        @keyframes scaleIn {
             from {
                 opacity: 0;
-                transform: translateY(50px);
+                transform: scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
 
@@ -227,7 +242,7 @@
             }
         }
 
-        .cta-button:hover {
+        .cta-button:hover, .cta-button:active {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
@@ -252,6 +267,14 @@
             color: #1e40af;
             margin-bottom: 3rem;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title::after {
@@ -283,6 +306,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.5s ease;
+            will-change: transform, opacity;
         }
 
         .about-text.visible, .about-features.visible {
@@ -313,10 +337,17 @@
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.95);
         }
 
-        .feature:hover {
-            transform: translateY(-5px);
+        .feature.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .feature:hover, .feature:active {
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
@@ -330,6 +361,11 @@
             justify-content: center;
             color: white;
             font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover .feature-icon, .feature:active .feature-icon {
+            transform: rotate(15deg);
         }
 
         /* Services Section */
@@ -350,19 +386,20 @@
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border: 2px solid transparent;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(30px) scale(0.95);
+            will-change: transform, opacity;
         }
 
         .service-card.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
+        .service-card:hover, .service-card:active {
+            transform: translateY(-10px) scale(1.03);
             box-shadow: 0 20px 50px rgba(37, 99, 235, 0.2);
             border-color: #2563eb;
         }
@@ -381,8 +418,8 @@
             transition: all 0.3s ease;
         }
 
-        .service-card:hover .service-icon {
-            transform: rotate(10deg) scale(1.1);
+        .service-card:hover .service-icon, .service-card:active .service-icon {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .service-card h3 {
@@ -446,9 +483,17 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: transform, opacity;
         }
 
-        .contact-item:hover {
+        .contact-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-item:hover, .contact-item:active {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -463,6 +508,12 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-item-icon, .contact-item:active .contact-item-icon {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
         }
 
         .contact-item-icon svg {
@@ -514,23 +565,28 @@
             box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
             z-index: 1000;
             transition: all 0.3s ease;
-            animation: pulse 2s infinite;
+            animation: pulseRotate 2s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes pulseRotate {
             0% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(10deg);
             }
             70% {
                 box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
             }
             100% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+                transform: rotate(0deg);
             }
         }
 
-        .whatsapp-float:hover {
-            transform: scale(1.1);
+        .whatsapp-float:hover, .whatsapp-float:active {
+            transform: scale(1.15) rotate(0deg);
             box-shadow: 0 10px 30px rgba(37, 211, 102, 0.6);
         }
 
@@ -564,7 +620,7 @@
             text-shadow: 0 0 10px #06b6d4;
         }
 
-        /* Responsive Design */
+        /* Mobile-Specific Styles */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -594,6 +650,12 @@
 
             .hero p {
                 font-size: 1.2rem;
+            }
+
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+                animation: bounce 1.2s ease-out infinite;
             }
 
             .about-content {
@@ -630,13 +692,26 @@
             .whatsapp-float {
                 bottom: 20px;
                 left: 20px;
-                width: 50px;
-                height: 50px;
+                width: 55px;
+                height: 55px;
             }
 
             .whatsapp-float svg {
-                width: 24px;
-                height: 24px;
+                width: 28px;
+                height: 28px;
+            }
+
+            /* Optimize animations for mobile */
+            .hero-content {
+                animation: scaleIn 0.8s ease-out;
+            }
+
+            .about-text, .about-features, .service-card, .contact-item {
+                transition-duration: 0.4s;
+            }
+
+            .feature {
+                transition-duration: 0.3s;
             }
         }
 
@@ -654,8 +729,8 @@
             }
 
             .cta-button {
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
+                padding: 0.7rem 1.8rem;
+                font-size: 0.9rem;
             }
 
             .contact-item {
@@ -674,6 +749,16 @@
 
             .contact-encouragement {
                 font-size: 1rem;
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+            }
+
+            .whatsapp-float svg {
+                width: 24px;
+                height: 24px;
             }
         }
     </style>
@@ -907,6 +992,57 @@
     </footer>
 
     <script>
+        // Page load animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // Section title animation
+        const sectionTitles = document.querySelectorAll('.section-title');
+        const titleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    titleObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px'
+        });
+
+        sectionTitles.forEach(title => titleObserver.observe(title));
+
+        // About section animation
+        const aboutSection = document.querySelector('#about');
+        const aboutText = document.querySelector('.about-text');
+        const aboutFeatures = document.querySelector('.about-features');
+        const features = document.querySelectorAll('.feature');
+
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    aboutText.classList.add('visible');
+                    setTimeout(() => {
+                        aboutFeatures.classList.add('visible');
+                        features.forEach((feature, index) => {
+                            setTimeout(() => {
+                                feature.classList.add('visible');
+                            }, index * 150);
+                        });
+                    }, 200);
+                    aboutObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px'
+        });
+
+        if (aboutSection) {
+            aboutObserver.observe(aboutSection);
+        }
+
         // Services section animation
         const servicesSection = document.querySelector('#services');
         const serviceCards = document.querySelectorAll('.service-card');
@@ -917,42 +1053,42 @@
                     serviceCards.forEach((card, index) => {
                         setTimeout(() => {
                             card.classList.add('visible');
-                        }, index * 200);
+                        }, index * 150);
                     });
                     servicesObserver.unobserve(entry.target);
                 }
             });
         }, {
             threshold: 0.1,
-            rootMargin: '0px 0px 0px 0px'
+            rootMargin: '0px'
         });
 
         if (servicesSection) {
             servicesObserver.observe(servicesSection);
         }
 
-        // About section animation
-        const aboutSection = document.querySelector('#about');
-        const aboutText = document.querySelector('.about-text');
-        const aboutFeatures = document.querySelector('.about-features');
+        // Contact section animation
+        const contactSection = document.querySelector('#contact');
+        const contactItems = document.querySelectorAll('.contact-item');
 
-        const aboutObserver = new IntersectionObserver((entries) => {
+        const contactObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    aboutText.classList.add('visible');
-                    setTimeout(() => {
-                        aboutFeatures.classList.add('visible');
-                    }, 200); // Slight delay for staggered effect
-                    aboutObserver.unobserve(entry.target);
+                    contactItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 150);
+                    });
+                    contactObserver.unobserve(entry.target);
                 }
             });
         }, {
             threshold: 0.1,
-            rootMargin: '0px 0px 0px 0px'
+            rootMargin: '0px'
         });
 
-        if (aboutSection) {
-            aboutObserver.observe(aboutSection);
+        if (contactSection) {
+            contactObserver.observe(contactSection);
         }
 
         // Header scroll effect
@@ -1042,23 +1178,13 @@
         style.textContent = rippleCSS;
         document.head.appendChild(style);
 
-        // Add loading animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-
         // Add floating animation to WhatsApp button
         const whatsappFloat = document.querySelector('.whatsapp-float');
         if (whatsappFloat) {
             setInterval(() => {
                 whatsappFloat.style.animation = 'none';
                 setTimeout(() => {
-                    whatsappFloat.style.animation = 'pulse 2s infinite';
+                    whatsappFloat.style.animation = 'pulseRotate 2s infinite';
                 }, 10);
             }, 5000);
         }
