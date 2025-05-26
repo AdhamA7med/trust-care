@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مكتب تراست كير للتمريض المنزلي - رعاية تمريضية منزلية متكاملة</title>
     <meta name="description" content="تراست كير - خدمات التمريض المنزلي في القاهرة. رعاية تمريضية آمنة ومتكاملة على مدار الساعة للحالات الحرجة والمسنين والزهايمر والسرطان وجميع الخدمات الطبية المنزلية">
     <meta name="keywords" content="تمريض منزلي, جليسة مسنين, رعاية صحية, القاهرة, تراست كير, ممرضة منزلية, رعاية حالات حرجة, زهايمر, سرطان">
@@ -28,12 +28,19 @@
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
-            opacity: 0;
-            transition: opacity 0.8s ease;
+            width: 100%;
+            min-height: 100vh;
         }
 
-        body.loaded {
-            opacity: 1;
+        /* Ensure mobile layout on small screens */
+        @media (max-width: 768px) {
+            body, html {
+                width: 100%;
+                overflow-x: hidden;
+            }
+            .container {
+                padding: 0 1rem;
+            }
         }
 
         /* Header Styles */
@@ -992,9 +999,11 @@
     </footer>
 
     <script>
-        // Page load animation
+        // Force layout on load
         window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 0);
         });
 
         // Section title animation
